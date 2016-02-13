@@ -12,10 +12,12 @@ Function Get-FileHashLegacy {
     ForEach ($file in $fileslist) {
         try {
             if ($Algorithm -eq "SHA1") {
+                # If specifying SHA1, use SHA1CryptoServiceProvider
                 $hash = [System.BitConverter]::ToString($SHA1.ComputeHash([System.IO.File]::Open($($file.fullname),`
                 [System.IO.Filemode]::Open,[System.IO.FileAccess]::Read))) -replace "-",""
             } #if
             elseif ($Algorithm -eq "MD5") {
+                # If specifying MD5, use MD5CryptoServiceProvider
                 $hash = [System.BitConverter]::ToString($MD5.ComputeHash([System.IO.File]::Open($($file.fullname),`
                 [System.IO.Filemode]::Open,[System.IO.FileAccess]::Read))) -replace "-",""
             } #elseif
