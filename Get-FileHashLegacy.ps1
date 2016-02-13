@@ -2,13 +2,15 @@ Function Get-FileHashLegacy {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)]
-        [string] $FilePath,
+        [string] $Path,
         [string] $Algorithm
         )
     # Get-FileHash equivalent
     $MD5 = New-Object -TypeName System.Security.Cryptography.MD5CryptoServiceProvider
     $SHA1 = New-Object -TypeName System.Security.Cryptography.SHA1CryptoServiceProvider
-    $fileslist = Get-ChildItem $FilePath -Recurse -ErrorAction "SilentlyContinue" | where { ! $_.PSIsContainer }
+
+    # Go through specified path
+    $fileslist = Get-ChildItem $Path -Recurse -ErrorAction "SilentlyContinue" | where { ! $_.PSIsContainer }
     ForEach ($file in $fileslist) {
         try {
             if ($Algorithm -eq "SHA1") {
@@ -26,7 +28,7 @@ Function Get-FileHashLegacy {
             [PSCustomObject]@{
             "Algorithm" = $Algorithm
             "Hash" = $hash
-            "Filename" = $file.fullname
+            "Path" = $file.fullname
             } #PSCustomObject
         } catch {
             Write-Warning "Error reading $($file.fullname)!"
