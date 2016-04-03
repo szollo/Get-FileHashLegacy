@@ -1,3 +1,22 @@
+<#
+ .SYNOPSIS
+    Small backport of Get-FileHash, which works on versions of PowerShell pre-4.0
+
+.DESCRIPTION
+    This function allows one to get similar functionality of Get-FileHash on systems older than PowerShell 4.0 
+
+.EXAMPLE
+    Get-FileHashLegacy -Path "C:\Windows\system32\"
+
+    Gets the file hash of anything below C:\Windows\system32
+
+.EXAMPLE
+    Get-FileHashLegacy -Path "C:\Windows\system32\" -Algorithm MD5
+
+    Gets the MD5 file hash of anything below C:\Windows\system32
+    
+#>
+
 Function Get-FileHashLegacy {
     [CmdletBinding()]
     Param (
